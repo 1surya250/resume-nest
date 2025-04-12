@@ -46,7 +46,7 @@ export default function CoursesPage() {
       subcategory: "Web Development",
       rating: 4.8,
       students: 12536,
-      image: "https://via.placeholder.com/300x180?text=HTML+CSS",
+      image: "https://images.unsplash.com/photo-1621839673705-6617adf9e890?q=80&w=2069",
       badge: {
         id: "web-dev-basic",
         name: "Web Dev Basics",
@@ -67,7 +67,7 @@ export default function CoursesPage() {
       subcategory: "Web Development",
       rating: 4.7,
       students: 9845,
-      image: "https://via.placeholder.com/300x180?text=JavaScript",
+      image: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?q=80&w=2070",
       badge: {
         id: "js-master",
         name: "JS Master",
@@ -88,7 +88,7 @@ export default function CoursesPage() {
       subcategory: "Web Development",
       rating: 4.9,
       students: 8721,
-      image: "https://via.placeholder.com/300x180?text=React",
+      image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2070",
       badge: {
         id: "react-dev",
         name: "React Developer",
@@ -108,7 +108,7 @@ export default function CoursesPage() {
       subcategory: "Programming",
       rating: 4.8,
       students: 15263,
-      image: "https://via.placeholder.com/300x180?text=Python",
+      image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=2074",
       badge: {
         id: "python-coder",
         name: "Python Coder",
@@ -129,7 +129,7 @@ export default function CoursesPage() {
       subcategory: "Soft Skills",
       rating: 4.6,
       students: 7845,
-      image: "https://via.placeholder.com/300x180?text=Communication",
+      image: "https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2070",
       badge: {
         id: "comm-pro",
         name: "Communication Pro",
@@ -149,7 +149,7 @@ export default function CoursesPage() {
       subcategory: "Soft Skills",
       rating: 4.7,
       students: 5632,
-      image: "https://via.placeholder.com/300x180?text=Leadership",
+      image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2070",
       badge: {
         id: "leader",
         name: "Leader",
@@ -169,7 +169,7 @@ export default function CoursesPage() {
       subcategory: "Business",
       rating: 4.5,
       students: 6821,
-      image: "https://via.placeholder.com/300x180?text=Project+Management",
+      image: "https://images.unsplash.com/photo-1551135049-8a33b5883817?q=80&w=2070",
       badge: {
         id: "proj-manager",
         name: "Project Manager",
@@ -190,7 +190,7 @@ export default function CoursesPage() {
       subcategory: "Data Science",
       rating: 4.9,
       students: 7265,
-      image: "https://via.placeholder.com/300x180?text=Data+Science",
+      image: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?q=80&w=2070",
       badge: {
         id: "data-analyst",
         name: "Data Analyst",
