@@ -56,7 +56,7 @@ We value the support of our community and welcome contributions to help enhance 
 ## Support
 
 If you encounter any issues or have questions, feel free to reach out to us:
-- **Email**: [Your support email here]
+- **Email**: nagasuryadinesh@gmail.com
 - **FAQs**: Visit our FAQ section on the website for quick answers.
 - **Community**: Join our forum to share feedback and collaborate with others.
 
