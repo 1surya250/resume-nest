@@ -4,6 +4,7 @@ import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 import { ThemeProvider } from "../theme-provider";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Toaster } from "@/components/ui/toaster";
 
 export function Layout() {
   return (
@@ -17,6 +18,7 @@ export function Layout() {
         </main>
         <Footer />
       </div>
+      <Toaster />
     </ThemeProvider>
   );
 }
