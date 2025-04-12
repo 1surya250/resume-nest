@@ -48,10 +48,10 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-careercraft-purple to-careercraft-green flex items-center justify-center">
-                <span className="text-white font-bold">CC</span>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-[#7F82BB] to-[#75F94D] flex items-center justify-center">
+                <span className="text-white font-bold">RN</span>
               </div>
-              <span className="font-bold text-xl hidden sm:inline-block">CareerCraft</span>
+              <span className="font-bold text-xl hidden sm:inline-block">ResumeNest</span>
             </Link>
           </div>
           

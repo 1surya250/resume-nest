@@ -9,10 +9,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-careercraft-purple to-careercraft-green flex items-center justify-center">
-                <span className="text-white font-bold">CC</span>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-[#7F82BB] to-[#75F94D] flex items-center justify-center">
+                <span className="text-white font-bold">RN</span>
               </div>
-              <span className="font-bold text-xl">CareerCraft</span>
+              <span className="font-bold text-xl">ResumeNest</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Elevate your career with AI-powered resume building, professional development,
@@ -34,7 +34,7 @@ export function Footer() {
                 <Linkedin size={18} />
               </a>
               <a 
-                href="mailto:info@careercraft.com" 
+                href="mailto:info@resumenest.com" 
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Email"
               >
@@ -125,7 +125,7 @@ export function Footer() {
         
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} CareerCraft. All rights reserved.
+            © {new Date().getFullYear()} ResumeNest. All rights reserved.
           </p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">

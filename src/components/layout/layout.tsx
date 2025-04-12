@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export function Layout() {
   return (
-    <ThemeProvider defaultTheme="system" storageKey="careercraft-theme">
+    <ThemeProvider defaultTheme="system" storageKey="resumenest-theme">
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-1 pt-16">
