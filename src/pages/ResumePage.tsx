@@ -1,5 +1,5 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -40,7 +40,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { CalendarIcon, Download, FileText, PenLine, Plus, Trash2 } from "lucide-react";
+import { CalendarIcon, Download, FileText, PenLine, Plus, Trash2, LayoutTemplate } from "lucide-react";
+import { ResumeHeader } from "@/components/resume/ResumeHeader";
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -93,6 +94,8 @@ type Skill = {
 };
 
 export default function ResumePage() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("personal");
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -101,6 +104,17 @@ export default function ResumePage() {
   const [currentExperience, setCurrentExperience] = useState<Experience | null>(null);
   const [currentEducation, setCurrentEducation] = useState<Education | null>(null);
   const [currentSkill, setCurrentSkill] = useState<Skill | null>(null);
+  
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const templateId = params.get('template');
+    if (templateId) {
+      setSelectedTemplate(templateId);
+      setActiveTab("personal");
+    } else {
+      navigate("/resume/templates");
+    }
+  }, [location.search, navigate]);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -208,11 +222,11 @@ export default function ResumePage() {
     });
   };
   
-  const handleSaveEducation = (education: Education) => {
-    if (education.find(e => e.id === education.id)) {
-      setEducation(education.map(e => e.id === education.id ? education : e));
+  const handleSaveEducation = (edu: Education) => {
+    if (education.find(e => e.id === edu.id)) {
+      setEducation(education.map(e => e.id === edu.id ? edu : e));
     } else {
-      setEducation([...education, education]);
+      setEducation([...education, edu]);
     }
     setCurrentEducation(null);
   };
@@ -255,77 +269,94 @@ export default function ResumePage() {
     // In a real application, you would process this data to generate the resume
   };
 
+  if (!selectedTemplate) {
+    return (
+      <div className="container mx-auto py-12">
+        <div className="max-w-5xl mx-auto text-center">
+          <h1 className="text-3xl font-bold mb-4">Select a Template First</h1>
+          <p className="mb-6">Please choose a resume template to continue building your resume</p>
+          <Button onClick={() => navigate("/resume/templates")}>
+            <LayoutTemplate className="mr-2 h-4 w-4" /> Browse Templates
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto py-12">
       <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold mb-2 font-montserrat">Create Your Professional Resume</h1>
-          <p className="text-muted-foreground">
-            Design a standout resume with our easy-to-use builder and professional templates
-          </p>
+        <ResumeHeader />
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="col-span-1 md:col-span-2">
+            <Card className="bg-gradient-to-br from-blue-50 to-purple-50 border-0 shadow-md">
+              <CardHeader className="pb-2">
+                <CardTitle>Your Resume Journey</CardTitle>
+                <CardDescription>
+                  Follow these steps to create a professional resume
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex flex-col space-y-2 text-sm">
+                  <div className="flex items-center py-1">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-2">1</div>
+                    <span>Choose a professional template</span>
+                    <span className="ml-auto text-green-600">✓ Done</span>
+                  </div>
+                  <div className="flex items-center py-1">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-2">2</div>
+                    <span>Fill in your personal information</span>
+                    <span className="ml-auto">{activeTab === "personal" ? "In progress" : ""}</span>
+                  </div>
+                  <div className="flex items-center py-1">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-2">3</div>
+                    <span>Add work experience</span>
+                    <span className="ml-auto">{activeTab === "experience" ? "In progress" : ""}</span>
+                  </div>
+                  <div className="flex items-center py-1">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-2">4</div>
+                    <span>Include education history</span>
+                    <span className="ml-auto">{activeTab === "education" ? "In progress" : ""}</span>
+                  </div>
+                  <div className="flex items-center py-1">
+                    <div className="h-6 w-6 rounded-full bg-primary/20 text-primary flex items-center justify-center mr-2">5</div>
+                    <span>List your skills</span>
+                    <span className="ml-auto">{activeTab === "skills" ? "In progress" : ""}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="col-span-1">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle>Selected Template</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-[3/4] bg-muted rounded-md overflow-hidden mb-4 border">
+                  <img 
+                    src={`https://via.placeholder.com/300x400?text=${selectedTemplate}`}
+                    alt="Selected template preview" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <Button variant="outline" className="w-full" onClick={() => navigate("/resume/templates")}>
+                  Change Template
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-10">
-          <TabsList className="grid grid-cols-5 mb-8">
-            <TabsTrigger value="template">Template</TabsTrigger>
+          <TabsList className="grid grid-cols-4 mb-8">
             <TabsTrigger value="personal">Personal Info</TabsTrigger>
             <TabsTrigger value="experience">Experience</TabsTrigger>
             <TabsTrigger value="education">Education</TabsTrigger>
             <TabsTrigger value="skills">Skills</TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="template">
-            <div className="space-y-6">
-              <h2 className="text-xl font-semibold">Choose a Template</h2>
-              <p className="text-muted-foreground mb-6">
-                Select a professional template that matches your personal style and industry standards.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                {templates.map((template) => (
-                  <Card 
-                    key={template.id} 
-                    className={cn(
-                      "cursor-pointer transition-all hover:shadow-md",
-                      selectedTemplate === template.id && "ring-2 ring-primary"
-                    )}
-                    onClick={() => handleSelectTemplate(template.id)}
-                  >
-                    <CardContent className="p-4">
-                      <div className="aspect-[3/4] bg-muted rounded-md overflow-hidden mb-4">
-                        <img 
-                          src={template.thumbnail} 
-                          alt={template.name} 
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-medium">{template.name}</h3>
-                          <p className="text-xs text-muted-foreground">{template.description}</p>
-                        </div>
-                        {template.popular && (
-                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
-                            Popular
-                          </span>
-                        )}
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {template.tags.map((tag) => (
-                          <span 
-                            key={tag} 
-                            className="text-xs bg-secondary/30 px-2 py-0.5 rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-          </TabsContent>
           
           <TabsContent value="personal">
             <Form {...form}>
@@ -784,8 +815,7 @@ export default function ResumePage() {
             variant="outline"
             onClick={() => {
               const prevTabs = {
-                template: "template",
-                personal: "template",
+                personal: "personal",
                 experience: "personal",
                 education: "experience",
                 skills: "education",
@@ -793,7 +823,7 @@ export default function ResumePage() {
               //@ts-ignore
               setActiveTab(prevTabs[activeTab]);
             }}
-            disabled={activeTab === "template"}
+            disabled={activeTab === "personal"}
           >
             Previous
           </Button>
@@ -813,7 +843,6 @@ export default function ResumePage() {
               <Button
                 onClick={() => {
                   const nextTabs = {
-                    template: "personal",
                     personal: "experience",
                     experience: "education",
                     education: "skills",

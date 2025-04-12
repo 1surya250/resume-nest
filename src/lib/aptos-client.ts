@@ -23,7 +23,8 @@ export const getAccountBalance = async (accountAddress: string) => {
     const coinResource = resources.find(
       (r) => r.type === "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>"
     );
-    return coinResource?.data?.coin?.value || "0";
+    // Use type assertion to handle the data structure correctly
+    return coinResource?.data ? (coinResource.data as any).coin?.value || "0" : "0";
   } catch (error) {
     console.error("Failed to fetch account balance:", error);
     return "0";

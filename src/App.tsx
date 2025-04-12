@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import GuidePage from "./pages/GuidePage";
 import TestPage from "./pages/TestPage";
 import ResumePage from "./pages/ResumePage";
+import ResumeTemplatesPage from "./pages/ResumeTemplatesPage";
 import CoursesPage from "./pages/CoursesPage";
 import InterviewPage from "./pages/InterviewPage";
 import JobsPage from "./pages/JobsPage";
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="guide" element={<GuidePage />} />
             <Route path="test" element={<TestPage />} />
             <Route path="resume" element={<ResumePage />} />
+            <Route path="resume/templates" element={<ResumeTemplatesPage />} />
             <Route path="courses" element={<CoursesPage />} />
             <Route path="interview" element={<InterviewPage />} />
             <Route path="jobs" element={<JobsPage />} />
