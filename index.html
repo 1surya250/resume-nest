@@ -16,6 +16,20 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@resumenest" />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <script>
+      // Check if Petra wallet is installed
+      window.addEventListener('load', function() {
+        // Give the window.aptos object time to be injected
+        setTimeout(function() {
+          if (window.aptos) {
+            console.log("Petra wallet detected");
+          } else {
+            console.log("Petra wallet not detected");
+          }
+        }, 500);
+      });
+    </script>
   </head>
 
   <body>

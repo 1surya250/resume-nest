@@ -23,6 +23,41 @@ export function useAptosWallet() {
     return window.aptos !== undefined;
   };
 
+  // Check connection status on component mount
+  useEffect(() => {
+    const checkConnection = async () => {
+      if (checkWalletInstalled()) {
+        try {
+          const isConnected = await window.aptos.isConnected();
+          if (isConnected) {
+            const account = await window.aptos.account();
+            const address = account.address;
+            
+            // Get balance
+            const balance = await aptosClient.getAccountResources(address)
+              .then(resources => {
+                const accountResource = resources.find(
+                  r => r.type === "0x1::coin::CoinStore<0x1::aptos_coin::AptosCoin>"
+                );
+                return (accountResource?.data as any)?.coin?.value || "0";
+              })
+              .catch(() => "0");
+
+            setWalletInfo({
+              address,
+              balance,
+              isConnected: true,
+            });
+          }
+        } catch (error) {
+          console.error("Error checking wallet connection:", error);
+        }
+      }
+    };
+
+    checkConnection();
+  }, []);
+
   // Connect to wallet
   const connectWallet = async () => {
     if (!checkWalletInstalled()) {
@@ -73,15 +108,32 @@ export function useAptosWallet() {
   };
 
   // Disconnect wallet
-  const disconnectWallet = () => {
-    setWalletInfo({
-      address: "",
-      balance: "0",
-      isConnected: false,
-    });
-    toast({
-      title: "Wallet disconnected",
-    });
+  const disconnectWallet = async () => {
+    if (!checkWalletInstalled()) return;
+    
+    try {
+      setIsLoading(true);
+      await window.aptos.disconnect();
+      
+      setWalletInfo({
+        address: "",
+        balance: "0",
+        isConnected: false,
+      });
+      
+      toast({
+        title: "Wallet disconnected",
+      });
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error);
+      toast({
+        title: "Disconnect failed",
+        description: "Failed to disconnect wallet",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return {

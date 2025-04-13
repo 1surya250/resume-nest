@@ -49,7 +49,7 @@ export function AptosWalletButton({ variant = "outline" }: AptosWalletButtonProp
       onClick={connectWallet}
       className="min-w-[180px]"
     >
-      <Wallet className="mr-2 h-4 w-4" /> Connect Aptos Wallet
+      <Wallet className="mr-2 h-4 w-4" /> Connect Petra Wallet
     </Button>
   );
 }
