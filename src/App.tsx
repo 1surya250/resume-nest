@@ -15,6 +15,9 @@ import JobsPage from "./pages/JobsPage";
 import DashboardPage from "./pages/DashboardPage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound";
+import ProfilePage from "./pages/dashboard/ProfilePage";
+import TasksPage from "./pages/dashboard/TasksPage";
+import AnalyticsPage from "./pages/dashboard/AnalyticsPage";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -36,6 +39,9 @@ const App: React.FC = () => {
                 <Route path="interview" element={<InterviewPage />} />
                 <Route path="jobs" element={<JobsPage />} />
                 <Route path="dashboard" element={<DashboardPage />} />
+                <Route path="dashboard/profile" element={<ProfilePage />} />
+                <Route path="dashboard/tasks" element={<TasksPage />} />
+                <Route path="dashboard/analytics" element={<AnalyticsPage />} />
                 <Route path="auth" element={<AuthPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

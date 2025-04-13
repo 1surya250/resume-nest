@@ -4,7 +4,7 @@ import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
 import { AptosWalletButton } from "@/components/resume/AptosWalletButton";
 import { useAuth } from "@/context/AuthContext";
-import { LogOut, User, UserCircle } from "lucide-react";
+import { LogOut, User, UserCircle, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +12,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { Menu } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -34,13 +37,17 @@ export function Navbar() {
 
   const navLinks = [
     { title: "Home", href: "/" },
+    { title: "Dashboard", href: "/dashboard", subItems: [
+      { title: "Profile", href: "/dashboard/profile" },
+      { title: "Tasks", href: "/dashboard/tasks" },
+      { title: "Analytics", href: "/dashboard/analytics" }
+    ]},
     { title: "Guide", href: "/guide" },
     { title: "Test", href: "/test" },
     { title: "Resume", href: "/resume" },
     { title: "Courses", href: "/courses" },
     { title: "Interview", href: "/interview" },
-    { title: "Jobs", href: "/jobs" },
-    { title: "Dashboard", href: "/dashboard" }
+    { title: "Jobs", href: "/jobs" }
   ];
 
   return (
@@ -64,13 +71,33 @@ export function Navbar() {
           
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                className="text-sm font-medium transition-colors hover:text-primary"
-              >
-                {link.title}
-              </Link>
+              link.subItems ? (
+                <DropdownMenu key={link.href}>
+                  <DropdownMenuTrigger className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-1">
+                    {link.title}
+                    <ChevronDown className="h-4 w-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem asChild>
+                      <Link to={link.href} className="w-full">{link.title} Overview</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    {link.subItems.map((subItem) => (
+                      <DropdownMenuItem key={subItem.href} asChild>
+                        <Link to={subItem.href} className="w-full">{subItem.title}</Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm font-medium transition-colors hover:text-primary"
+                >
+                  {link.title}
+                </Link>
+              )
             ))}
           </nav>
           
@@ -125,9 +152,25 @@ export function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[200px]">
                   {navLinks.map((link) => (
-                    <DropdownMenuItem key={link.href} asChild>
-                      <Link to={link.href}>{link.title}</Link>
-                    </DropdownMenuItem>
+                    link.subItems ? (
+                      <DropdownMenuSub key={link.href}>
+                        <DropdownMenuSubTrigger>{link.title}</DropdownMenuSubTrigger>
+                        <DropdownMenuSubContent>
+                          <DropdownMenuItem asChild>
+                            <Link to={link.href}>{link.title} Overview</Link>
+                          </DropdownMenuItem>
+                          {link.subItems.map((subItem) => (
+                            <DropdownMenuItem key={subItem.href} asChild>
+                              <Link to={subItem.href}>{subItem.title}</Link>
+                            </DropdownMenuItem>
+                          ))}
+                        </DropdownMenuSubContent>
+                      </DropdownMenuSub>
+                    ) : (
+                      <DropdownMenuItem key={link.href} asChild>
+                        <Link to={link.href}>{link.title}</Link>
+                      </DropdownMenuItem>
+                    )
                   ))}
                   {!user && (
                     <DropdownMenuItem asChild>
