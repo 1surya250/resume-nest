@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Navigate } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Textarea } from '@/components/ui/textarea';
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -42,8 +43,14 @@ const registerSchema = z.object({
   path: ["confirmPassword"],
 });
 
+const contactSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  subject: z.string().min(3, { message: "Subject must be at least 3 characters" }),
+  message: z.string().min(10, { message: "Message must be at least 10 characters" }),
+});
+
 const AuthPage = () => {
-  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+  const [activeTab, setActiveTab] = useState<"login" | "register" | "contact">("login");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { user, signIn, signUp } = useAuth();
@@ -68,6 +75,15 @@ const AuthPage = () => {
       email: "",
       password: "",
       confirmPassword: "",
+    },
+  });
+
+  const contactForm = useForm<z.infer<typeof contactSchema>>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      email: "",
+      subject: "",
+      message: "",
     },
   });
 
@@ -98,10 +114,11 @@ const AuthPage = () => {
   return (
     <div className="container mx-auto flex items-center justify-center min-h-[calc(100vh-16rem)] py-8">
       <div className="w-full max-w-md">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "login" | "register")} className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "login" | "register" | "contact")} className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="login">Sign In</TabsTrigger>
             <TabsTrigger value="register">Sign Up</TabsTrigger>
+            <TabsTrigger value="contact">Contact</TabsTrigger>
           </TabsList>
 
           <TabsContent value="login">
@@ -240,6 +257,61 @@ const AuthPage = () => {
                     </Button>
                   </form>
                 </Form>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="contact">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">Contact Us</CardTitle>
+                <CardDescription>
+                  Send us a message with your questions or feedback
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form 
+                  action="https://formbold.com/s/3Gvl1" 
+                  method="POST" 
+                  className="space-y-4"
+                >
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="email">Email</FormLabel>
+                    <Input 
+                      id="email"
+                      type="email" 
+                      name="email" 
+                      placeholder="you@example.com" 
+                      required 
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="subject">Subject</FormLabel>
+                    <Input 
+                      id="subject"
+                      type="text" 
+                      name="subject" 
+                      placeholder="Subject" 
+                      required 
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="message">Message</FormLabel>
+                    <Textarea 
+                      id="message"
+                      name="message" 
+                      placeholder="Type your message" 
+                      className="min-h-[120px]" 
+                      required 
+                    />
+                  </div>
+                  
+                  <Button type="submit" className="w-full">
+                    Send Message
+                  </Button>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
