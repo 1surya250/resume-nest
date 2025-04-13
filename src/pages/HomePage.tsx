@@ -1,5 +1,4 @@
 
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -11,8 +10,12 @@ import {
   MessageSquareText,
   PenTool,
   UserRound,
+  Triangle,
+  Star,
+  Hexagon,
 } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
@@ -85,21 +88,36 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section with subtle background */}
+      {/* Hero Section with enhanced background */}
       <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24 hero-bg-overlay">
-        {/* Gradient blobs for modern design */}
-        <div className="gradient-blob w-[600px] h-[600px] bg-careercraft-purple/30 top-[-100px] right-[-200px]"></div>
-        <div className="gradient-blob w-[500px] h-[500px] bg-careercraft-green/30 bottom-[-100px] left-[-200px]"></div>
+        {/* More dynamic gradient blobs */}
+        <div className="gradient-blob w-[800px] h-[800px] bg-careercraft-purple/20 top-[-200px] right-[-300px] animate-pulse"></div>
+        <div className="gradient-blob w-[700px] h-[700px] bg-careercraft-green/20 bottom-[-200px] left-[-300px] animate-pulse delay-500"></div>
         
+        {/* Background pattern and overlay */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-white/2 dark:from-black/20 dark:via-black/10 dark:to-black/5"></div>
+          <div className="absolute inset-0 opacity-10 dark:opacity-5">
+            <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(127,130,187,0.1)_50%,transparent_75%)]"></div>
+          </div>
+        </div>
+
         <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl mx-auto text-center mb-12">
-            <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-careercraft-purple to-careercraft-green">
+          {/* Decorative icons */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <Triangle className="absolute top-20 left-10 text-careercraft-purple/20 w-24 h-24 animate-float" />
+            <Star className="absolute top-1/3 right-20 text-careercraft-green/20 w-16 h-16 animate-spin-slow" />
+            <Hexagon className="absolute bottom-1/4 left-1/3 text-careercraft-purple/20 w-20 h-20 animate-bounce-slow" />
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center mb-12 relative">
+            <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-careercraft-purple to-careercraft-green animate-slide-up">
               Craft Your Career Success Story
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in">
               Build professional resumes, enhance your skills, and land your dream job with our AI-powered career platform
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
               <Button asChild size="lg" className="rounded-full bg-careercraft-purple hover:bg-careercraft-purple/90">
                 <Link to="/resume">
                   Create Resume
