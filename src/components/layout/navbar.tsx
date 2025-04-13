@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "./theme-toggle";
 import { Button } from "@/components/ui/button";
+import { AptosWalletButton } from "@/components/resume/AptosWalletButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -69,6 +70,7 @@ export function Navbar() {
           
           <div className="flex items-center gap-4">
             <ThemeToggle />
+            <AptosWalletButton variant="outline" />
             
             <div className="md:hidden">
               <DropdownMenu open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
