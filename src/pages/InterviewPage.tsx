@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Mic, Video, MessageSquare, Play, Pause, UserPlus, Briefcase, Check } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
-export default function InterviewPage() {
+const InterviewPage = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [interviewStep, setInterviewStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
@@ -405,4 +405,6 @@ export default function InterviewPage() {
       </div>
     </div>
   );
-}
+};
+
+export default InterviewPage;
