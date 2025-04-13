@@ -1,7 +1,7 @@
 
 import { useAptosWallet } from "@/hooks/use-aptos-wallet";
 import { Button } from "@/components/ui/button";
-import { Loader2, Wallet, ExternalLink, Download } from "lucide-react";
+import { Loader2, Wallet, ExternalLink, Download, Crown, Lock } from "lucide-react";
 import { useState } from "react";
 import { 
   Dialog,
@@ -11,6 +11,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { formatAptosBalance } from "@/lib/aptos-client";
+import { Badge } from "@/components/ui/badge";
 
 type AptosWalletButtonProps = {
   variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
@@ -89,24 +99,50 @@ export function AptosWalletButton({ variant = "outline" }: AptosWalletButtonProp
 
   if (walletInfo.isConnected) {
     return (
-      <Button
-        variant={variant}
-        className="text-xs"
-        onClick={disconnectWallet}
-      >
-        <Wallet className="mr-1 h-4 w-4" />
-        {walletInfo.address.slice(0, 6)}...{walletInfo.address.slice(-4)}
-      </Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant={variant}
+            className="text-xs gap-2"
+          >
+            <Badge variant="secondary" className="px-1 h-5 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+              <Crown className="h-3 w-3 mr-1" />
+              Premium
+            </Badge>
+            <div className="flex items-center">
+              <Wallet className="h-4 w-4 mr-1" />
+              {walletInfo.address.slice(0, 6)}...{walletInfo.address.slice(-4)}
+            </div>
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuLabel>Wallet Account</DropdownMenuLabel>
+          <DropdownMenuItem className="flex justify-between">
+            <span>Balance:</span>
+            <span className="font-medium">{formatAptosBalance(walletInfo.balance)} APT</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="gap-2 text-green-700 dark:text-green-400">
+            <Crown className="h-4 w-4" /> Premium Access Enabled
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem 
+            onClick={disconnectWallet}
+            className="text-destructive"
+          >
+            Disconnect Wallet
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     );
   }
 
   return (
     <Button
-      variant={variant}
+      variant="default"
       onClick={connectWallet}
-      className="min-w-[180px]"
+      className="min-w-[180px] bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700"
     >
-      <Wallet className="mr-2 h-4 w-4" /> Connect Petra Wallet
+      <Lock className="mr-2 h-4 w-4" /> Unlock Premium Features
     </Button>
   );
 }

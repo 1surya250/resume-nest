@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, ArrowRight, Bookmark } from "lucide-react";
+import { Search, Filter, ArrowRight, Bookmark, Crown, Lock } from "lucide-react";
 import { useAptosWallet } from "@/hooks/use-aptos-wallet";
 
 type ResumeTemplate = {
@@ -143,24 +142,25 @@ export default function ResumeTemplatesPage() {
           </p>
 
           {/* Aptos Wallet Connection */}
-          <div className="mt-6 flex justify-center">
+          <div className="mt-6 flex flex-col items-center">
             {!walletInfo.isConnected ? (
-              <Button 
-                onClick={connectWallet} 
-                disabled={isLoading} 
-                variant="outline" 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 text-white hover:opacity-90"
-              >
-                {isLoading ? "Connecting..." : "Connect Aptos Wallet for Premium Templates"}
-              </Button>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Badge variant="secondary" className="py-2">
-                  Connected: {walletInfo.address.slice(0, 6)}...{walletInfo.address.slice(-4)}
-                </Badge>
-                <Button variant="ghost" size="sm" onClick={disconnectWallet}>
-                  Disconnect
+              <div className="flex flex-col items-center gap-2">
+                <Button 
+                  onClick={() => {}} 
+                  variant="outline" 
+                  className="bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:opacity-90 mb-2"
+                  disabled
+                >
+                  <Crown className="mr-2 h-4 w-4" /> Premium Templates
                 </Button>
+                <p className="text-sm text-muted-foreground">
+                  Connect your Aptos wallet to unlock premium templates and features
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-900/30 rounded-md border border-green-200 dark:border-green-800">
+                <Crown className="h-5 w-5 text-amber-500" />
+                <span className="font-medium">Premium access unlocked</span>
               </div>
             )}
           </div>
@@ -196,8 +196,9 @@ export default function ResumeTemplatesPage() {
               variant={filter === "premium" ? "default" : "outline"} 
               size="sm"
               onClick={() => handleFilterClick("premium")}
+              className={filter === "premium" ? "" : "gap-1"}
             >
-              Premium
+              {filter !== "premium" && <Crown className="h-3.5 w-3.5" />} Premium
             </Button>
           </div>
         </div>
@@ -208,7 +209,7 @@ export default function ResumeTemplatesPage() {
               key={template.id} 
               className={`overflow-hidden hover:shadow-lg transition-all ${
                 selectedTemplate === template.id ? "ring-2 ring-primary" : ""
-              }`}
+              } ${template.premium && !walletInfo.isConnected ? "opacity-80" : ""}`}
             >
               <div className="relative">
                 <img 
@@ -218,12 +219,21 @@ export default function ResumeTemplatesPage() {
                 />
                 {template.premium && (
                   <div className="absolute top-3 right-3">
-                    <Badge className="bg-amber-500">Premium</Badge>
+                    <Badge className="bg-amber-500 gap-1">
+                      <Crown className="h-3.5 w-3.5" /> Premium
+                    </Badge>
                   </div>
                 )}
                 {template.popular && (
                   <div className="absolute top-3 left-3">
                     <Badge className="bg-blue-500">Popular</Badge>
+                  </div>
+                )}
+                {template.premium && !walletInfo.isConnected && (
+                  <div className="absolute inset-0 bg-black/30 flex flex-col items-center justify-center text-white">
+                    <Lock className="h-12 w-12 mb-2" />
+                    <p className="font-bold text-lg">Premium Template</p>
+                    <p className="text-sm opacity-90">Connect wallet to unlock</p>
                   </div>
                 )}
               </div>
@@ -249,8 +259,17 @@ export default function ResumeTemplatesPage() {
                   onClick={() => handleSelectTemplate(template.id)}
                   disabled={template.premium && !walletInfo.isConnected}
                 >
-                  Use this template
-                  <ArrowRight size={16} className="ml-1" />
+                  {template.premium && !walletInfo.isConnected ? (
+                    <>
+                      <Lock size={16} className="mr-1" />
+                      Unlock
+                    </>
+                  ) : (
+                    <>
+                      Use this template
+                      <ArrowRight size={16} className="ml-1" />
+                    </>
+                  )}
                 </Button>
               </CardFooter>
             </Card>
