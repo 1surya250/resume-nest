@@ -85,20 +85,13 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
-        <div className="absolute top-0 right-0 -z-10 opacity-20">
-          <svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="200" cy="200" r="200" fill="url(#paint0_linear)" />
-            <defs>
-              <linearGradient id="paint0_linear" x1="0" y1="0" x2="400" y2="400" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#7F82BB" />
-                <stop offset="1" stopColor="#75F94D" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-        <div className="container mx-auto px-4">
+      {/* Hero Section with subtle background */}
+      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24 hero-bg-overlay">
+        {/* Gradient blobs for modern design */}
+        <div className="gradient-blob w-[600px] h-[600px] bg-careercraft-purple/30 top-[-100px] right-[-200px]"></div>
+        <div className="gradient-blob w-[500px] h-[500px] bg-careercraft-green/30 bottom-[-100px] left-[-200px]"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h1 className="font-montserrat text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-careercraft-purple to-careercraft-green">
               Craft Your Career Success Story
@@ -124,8 +117,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Personal Info Section */}
-      <section className="py-16 bg-muted/50">
+      {/* Personal Info Section with subtle background */}
+      <section className="py-16 bg-muted/50 relative">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-10">
@@ -154,7 +147,7 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="md:w-1/2">
-                <Card>
+                <Card className="shadow-lg border-primary/10">
                   <CardContent className="pt-6">
                     <form className="space-y-4">
                       <div>
@@ -213,7 +206,7 @@ export default function HomePage() {
                           placeholder="City, State, Country"
                         />
                       </div>
-                      <Button className="w-full" size="lg">
+                      <Button className="w-full glass-card bg-gradient-to-r from-careercraft-purple/80 to-careercraft-purple hover:opacity-90" size="lg">
                         Save Information
                       </Button>
                     </form>
@@ -226,8 +219,9 @@ export default function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
+      <section className="py-20 relative">
+        <div className="gradient-blob w-[700px] h-[700px] bg-careercraft-yellow/10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center mb-12">
             <h2 className="font-montserrat text-3xl font-bold mb-4">
               Everything You Need to Succeed
@@ -261,9 +255,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-primary/5 py-20">
-        <div className="container mx-auto px-4">
+      {/* CTA Section with subtle gradient background */}
+      <section className="bg-gradient-to-br from-primary/5 to-accent/5 py-20 relative">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="font-montserrat text-3xl font-bold mb-6">
               Ready to Advance Your Career?
