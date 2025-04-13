@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +12,17 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, ArrowRight, Bookmark, Crown, Lock } from "lucide-react";
+import { Search, Filter, ArrowRight, Bookmark, Crown, Lock, Wallet, ExternalLink } from "lucide-react";
 import { useAptosWallet } from "@/hooks/use-aptos-wallet";
+import { AptosWalletButton } from "@/components/resume/AptosWalletButton";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ResumeTemplate = {
   id: string;
@@ -29,7 +39,8 @@ export default function ResumeTemplatesPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string | null>(null);
-  const { walletInfo, connectWallet, disconnectWallet, isLoading } = useAptosWallet();
+  const [showWalletInfoDialog, setShowWalletInfoDialog] = useState(false);
+  const { walletInfo } = useAptosWallet();
 
   const templates: ResumeTemplate[] = [
     {
@@ -146,21 +157,25 @@ export default function ResumeTemplatesPage() {
             {!walletInfo.isConnected ? (
               <div className="flex flex-col items-center gap-2">
                 <Button 
-                  onClick={() => {}} 
+                  onClick={() => setShowWalletInfoDialog(true)} 
                   variant="outline" 
-                  className="bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:opacity-90 mb-2"
-                  disabled
+                  className="bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:opacity-90 mb-2 gap-2"
                 >
-                  <Crown className="mr-2 h-4 w-4" /> Premium Templates
+                  <Crown className="h-4 w-4" /> Premium Templates
                 </Button>
                 <p className="text-sm text-muted-foreground">
                   Connect your Aptos wallet to unlock premium templates and features
                 </p>
               </div>
             ) : (
-              <div className="flex items-center gap-2 p-2 bg-green-50 dark:bg-green-900/30 rounded-md border border-green-200 dark:border-green-800">
-                <Crown className="h-5 w-5 text-amber-500" />
-                <span className="font-medium">Premium access unlocked</span>
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2 p-2 px-4 bg-green-50 dark:bg-green-900/30 rounded-md border border-green-200 dark:border-green-800">
+                  <Crown className="h-5 w-5 text-amber-500" />
+                  <span className="font-medium">Premium access unlocked</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Connected as: {walletInfo.address.slice(0, 6)}...{walletInfo.address.slice(-4)}
+                </p>
               </div>
             )}
           </div>
@@ -276,6 +291,68 @@ export default function ResumeTemplatesPage() {
           ))}
         </div>
       </div>
+
+      {/* Wallet Information Dialog */}
+      <Dialog open={showWalletInfoDialog} onOpenChange={setShowWalletInfoDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Wallet className="h-5 w-5" /> Connect Aptos Wallet
+            </DialogTitle>
+            <DialogDescription>
+              Connect your wallet to access premium templates and features
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="flex flex-col gap-2 p-4 rounded-md border bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
+              <h3 className="font-medium flex items-center gap-2">
+                <Crown className="h-4 w-4 text-amber-500" /> Premium Benefits
+              </h3>
+              <ul className="text-sm space-y-2 text-muted-foreground">
+                <li className="flex items-start gap-2">
+                  <div className="mt-0.5">•</div>
+                  <div>Access to all premium templates</div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-0.5">•</div>
+                  <div>Unlimited resume exports</div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-0.5">•</div>
+                  <div>Custom resume sections</div>
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-0.5">•</div>
+                  <div>Priority support</div>
+                </li>
+              </ul>
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <h3 className="font-medium">How to connect:</h3>
+              <ol className="list-decimal list-inside text-sm space-y-2 text-muted-foreground">
+                <li>Install the Petra Wallet browser extension</li>
+                <li>Create a new wallet or import an existing one</li>
+                <li>Make sure you have some APT tokens for transaction fees</li>
+                <li>Click the connect button below</li>
+              </ol>
+            </div>
+          </div>
+          
+          <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-between">
+            <Button
+              variant="outline"
+              onClick={() => window.open("https://petra.app/", "_blank")}
+              className="w-full sm:w-auto gap-2"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Get Petra Wallet
+            </Button>
+            <AptosWalletButton variant="default" />
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
